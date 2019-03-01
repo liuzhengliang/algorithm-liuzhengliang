@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 无重复字符的最长子串
  * <p>
@@ -76,9 +79,29 @@ public class At0003 {
         }
     }
 
+    /*****************************标准答案***************************************/
+    //这方法真牛逼！！！！
+    public int lengthOfLongestSubstring2(String s) {
+        int n = s.length(), ans = 0;
+        Map<Character, Integer> map = new HashMap<>(); // current index of character
+        // try to extend the range [i, j]
+        for (int j = 0, i = 0; j < n; j++) {
+            if (map.containsKey(s.charAt(j))) {
+                //上一次无重复位数
+                i = Math.max(map.get(s.charAt(j)), i);
+            }
+            ans = Math.max(ans, j - i + 1);
+            map.put(s.charAt(j), j + 1);
+        }
+        return ans;
+    }
+
+    /*****************************标准答案***************************************/
+
+
     public static void main(String[] args) {
         At0003 at0003 = new At0003();
-        int abcabcbb = at0003.lengthOfLongestSubstring("pwwkefw");
+        int abcabcbb = at0003.lengthOfLongestSubstring2("pwwkefw");
         System.out.println(abcabcbb);
     }
 }
