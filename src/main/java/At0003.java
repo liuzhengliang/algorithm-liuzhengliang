@@ -29,11 +29,18 @@ public class At0003 {
      * @return 长度
      */
     public int lengthOfLongestSubstring(String s) {
+        int maxLength = 0;
+        //前后同时截取
         for (int i = 0; i < s.length(); i++) {
-            final String substring = s.substring(i);
+            for (int j = s.length(); j > i; j--) {
+                final String substring = s.substring(i, j);
+                if (judgingTimes(substring) && (substring.length() > maxLength)) {
+                    maxLength = substring.length();
+                }
+            }
 
         }
-        return 1;
+        return maxLength;
     }
 
     /**
@@ -42,22 +49,36 @@ public class At0003 {
      * @param s 字符串
      * @return 是否
      */
-    public boolean judgingimesT(String s) {
-        //字符重复次数
+    public boolean judgingTimes(String s) {
+        //取得abcabcbb
         int judgingSum = 0;
         for (int j = 0; j < s.length(); j++) {
+            //拿到a
             final char c = s.charAt(j);
-            if (s.contains(String.valueOf(c))) {
-
+            //和a后面每个元素进行比对
+            for (int k = j + 1; k < s.length(); k++) {
+                //字符重复次数
+                if (s.charAt(k) == c) {
+                    ++judgingSum;
+                }
+                if (judgingSum == 1) {
+                    break;
+                }
+            }
+            if (judgingSum == 1) {
+                break;
             }
         }
-        return true;
+        if (judgingSum == 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void main(String[] args) {
         At0003 at0003 = new At0003();
-        int abcabcbb = at0003.lengthOfLongestSubstring("abcabcbb");
-        System.out.println("abcabcbb".length());
+        int abcabcbb = at0003.lengthOfLongestSubstring("pwwkefw");
+        System.out.println(abcabcbb);
     }
-    //???
 }
